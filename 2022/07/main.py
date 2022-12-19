@@ -131,8 +131,7 @@ for line in load_input().split('$'):
             except ValueError:
                 pass
 
-
-sizes = [dir.size for dir in directories if dir.size<100000]
+sizes = [dir.size for dir in directories if dir.size < 100000]
 print("--- Part One ---")
 print(sum(sizes))
 print("--- Part Two ---")
