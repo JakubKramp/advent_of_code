@@ -241,22 +241,81 @@ So, there are 13 positions the tail visited at least once.
 Simulate your complete hypothetical series of motions. How many positions does the tail of the rope visit at least once?
 """
 
-uniques = set()
-starting_postion = (0,0)
+class Stack:
+    positions = []
 
-def distance(head, tail):
-    if abs(head[0]-tail[0])>1:
-        return True
-    if abs(head[1] - tail[1]) > 1:
-        return True
-    return False
+    def add(self, coordinates):
+        if len(self.positions) == 10:
+            self.positions = self.positions[1:]
+            self.positions.append(coordinates)
+
 
 def load_input(filename: str = 'input.txt') -> str:
     with open(filename, 'r') as f:
         input_data = f.read()
     return input_data
 
-head_starting=(0,0)
-tail_starting = (0,0)
 
-for command in load_input().split('\n'):
+class Snake:
+    head_position = [0, 0]
+    head_previous = [0, 0]
+    tail_position = [0, 0]
+    tail_visited = set()
+    tail_visited.add((0, 0))
+
+    def head_move(self, direction, length):
+        if direction == 'U':
+            for i in range(length):
+                self.head_previous = self.head_position.copy()
+                self.head_position[1] += 1
+                if self.is_neighbor():
+                    pass
+                else:
+                    self.tail_position = self.head_previous
+                    self.tail_visited.add(tuple(self.tail_position))
+
+        if direction == 'D':
+            for i in range(length):
+                self.head_previous = self.head_position.copy()
+                self.head_position[1] -= 1
+        if direction == 'L':
+            for i in range(length):
+                head_previous = self.head_position.copy()
+                self.head_position[0] -= 1
+                if self.is_neighbor():
+                    pass
+                else:
+                    self.tail_position = head_previous
+                    self.tail_visited.add(tuple(self.tail_position))
+        if direction == 'R':
+            for i in range(length):
+                head_previous = self.head_position.copy()
+                self.head_position[0] += 1
+                if self.is_neighbor():
+                    pass
+                else:
+                    self.tail_position = head_previous
+                    self.tail_visited.add(tuple(self.tail_position))
+
+    def is_neighbor(self):
+        x_dist = abs(self.head_position[0] - self.tail_position[0])
+        y_dist = abs(self.head_position[1] - self.tail_position[1])
+        if x_dist < 2 and y_dist < 2:
+            return True
+        return False
+
+    def tail_move(self):
+        if self.is_neighbor():
+            pass
+        else:
+            self.tail_position = self.head_previous
+            self.tail_visited.add(tuple(self.tail_position))
+
+    def run(self):
+        for command in load_input().split('\n'):
+            direction, length = command.split(' ')
+            self.head_move(direction, int(length))
+        return self.tail_visited
+
+
+print(len(Snake.run()))
