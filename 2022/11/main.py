@@ -211,11 +211,19 @@ In this example, the two most active monkeys inspected items 101 and 105 times. 
 
 Figure out which monkeys to chase by counting how many items they inspect over 20 rounds. What is the level of monkey business after 20 rounds of stuff-slinging simian shenanigans?
 """
+import math
+
 
 def load_input(filename: str = 'input.txt') -> str:
     with open(filename, 'r') as f:
         input_data = f.read()
     return input_data
+
+def reduce(number):
+    if number % 19**2 == 0:
+        number /= 19
+    return int(number)
+
 
 class Monkey:
 
@@ -225,16 +233,75 @@ class Monkey:
         self.test = test
         self.true = true
         self.false = false
+        self.inspections = 0
+
+
+    def inspect(self, worry):
+        new_items = []
+        old_items = []
+        items = []
+        for item in self.items:
+            new_value = eval(f'{item}{self.operation}')
+            if worry:
+                new_value = int(new_value/3)
+            old_value = new_value
+            new_value = reduce(new_value)
+            new_items.append(new_value)
+            old_items.append(old_value)
+            items.append([old_value, new_value])
+        for it in items:
+            self.test_func(it)
+        for new_item in new_items:
+            if new_item % self.test == 0:
+                monkeys[self.true].items.append(new_item)
+            else:
+                monkeys[self.false].items.append(new_item)
+        self.inspections += len(self.items)
+        self.items = []
+
+    def test_func(self, item):
+        if item[0] % self.test == 0:
+            v1 = True
+        else:
+            v1 = False
+        if item[1] % self.test == 0:
+            v2 = True
+        else:
+            v2 = False
+        return v1 == v2
+
+
+numbers = [2,3,5,7,11,13,17,19]
 
 monkeys = []
 def create_monkeys():
     for monkey in load_input().split('\n\n'):
         attrs = monkey.split('\n')
-        items = [attrs[0].split(':')[1].split(',')]
-        operation = attrs[1].split(':')[1][11:].replace(' old', '*2')
-        test = attrs[2].split('by ')[1]
-        true = attrs[3][-1]-1
-        false = attrs[4][-1]-1
+        items = [int(item) for item in attrs[1].split(':')[1].split(',')]
+        operation = attrs[2].split(':')[1][11:].replace(' old', '*2')
+        test = int(attrs[3].split('by ')[1])
+        true = int(attrs[4][-1])
+        false = int(attrs[5][-1])
         monkeys.append(Monkey(items, operation, test, true, false))
 
-print(monkeys)
+create_monkeys()
+for i in range(100):
+    print(i)
+    for monkey in monkeys:
+        monkey.inspect(True)
+inspections = [monkey.inspections for monkey in monkeys]
+print("--- Part One ---")
+print(inspections)
+print(math.prod(sorted(inspections[-3:-1])))
+"""
+print("--- Part Two ---")
+monkeys = []
+create_monkeys()
+for i in range(10000):
+    print(i)
+    for monkey in monkeys:
+        monkey.inspect(False)
+inspections_no_worries = [monkey.inspections for monkey in monkeys]
+print(sorted(inspections_no_worries))
+print(math.prod(sorted(inspections_no_worries[-3:-1])))
+"""

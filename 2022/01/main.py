@@ -63,3 +63,11 @@ if __name__ == '__main__':
     print(results[-1])
     print('--- Part Two ---')
     print(sum(results))
+
+
+r = Figure('rock')
+s = not ...
+[]
+
+get_item(attr, value):
+
