@@ -36,13 +36,12 @@ puzzle_input = load_input()
 
 
 def get_floor(instructions: str) -> int:
-    print(instructions.count('('))
     return instructions.count('(')-instructions.count(')')
 
 
 def get_basement_entrance(instructions: str) -> int:
-    position = 1
-    floor = 0
+    position: int = 1
+    floor: int = 0
     for i in instructions:
         match  i:
             case '(':
