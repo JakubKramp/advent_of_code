@@ -30,7 +30,7 @@ For example:
 What is the position of the character that causes Santa to first enter the basement?
 """
 
-from utils import load_input
+from utils import load_input, print_answer
 
 puzzle_input = load_input()
 
@@ -54,7 +54,4 @@ def get_basement_entrance(instructions: str) -> int:
     return position
 
 
-print("---PART ONE---")
-print(get_floor(puzzle_input))
-print("---PART TWO---")
-print(get_basement_entrance(puzzle_input))
+print_answer(get_floor(puzzle_input), get_basement_entrance(puzzle_input))
