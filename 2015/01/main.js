@@ -1,17 +1,13 @@
-
-// Node.js program to demonstrate the
-// fs.open() Method
-
-// Include the fs module
 const fs = require('fs');
 
 function load_input(filename = 'input.txt'){
  try {
   const data = fs.readFileSync('input.txt', 'utf8');
   return data
-} catch (err) {
+    }
+catch (err) {
   console.error(err);
-}
+    }
 }
 
 const input_data = load_input()
