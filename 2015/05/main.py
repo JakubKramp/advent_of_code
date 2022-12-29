@@ -40,7 +40,7 @@ vowels = ['a', 'e', 'i', 'o', 'u']
 forbidden = ['ab', 'cd', 'pq', 'xy']
 
 
-def naughty_or_nice(text):
+def is_nice(text):
     for f in forbidden:
         if f in text:
             return False
@@ -49,6 +49,9 @@ def naughty_or_nice(text):
         return False
     return bool(re.search(r'(\w)\1+', text))
 
+def new_criteria(text):
+    return bool(re.search(r'((\w)\w).*\1', text) and re.search(r'(\w)(\w)\1', text))
 
 
-print(list(map(naughty_or_nice, load_input().split('\n'))).count(True))
+print_answer(list(map(is_nice, load_input().split('\n'))).count(True),
+             list(map(new_criteria, load_input().split('\n'))).count(True))
