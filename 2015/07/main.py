@@ -97,7 +97,12 @@ while commands:
     del commands[0]
 
 
-
-
-
-print(CIRCUITS['a'])
+first_answer = CIRCUITS['a']
+overriden_input = load_input().replace('44430 -> b\n', '3176 -> b\n')
+commands = overriden_input.split('\n')
+CIRCUITS = {}
+while commands:
+    execute_command(commands[0])
+    del commands[0]
+second_answer = CIRCUITS['a']
+print_answer(first_answer, second_answer)
