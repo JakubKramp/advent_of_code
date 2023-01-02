@@ -21,14 +21,13 @@ import numpy as np
 
 from utils import load_input, print_answer
 
-input_data = load_input()
-
 
 def get_coordinates(command):
     coordinates = re.search(r'(\d+),(\d+).*(\d+),(\d+)', command).group().split(' through ')
     x = [int(coordinate.split(',')[0]) for coordinate in coordinates]
     y = [int(coordinate.split(',')[1]) for coordinate in coordinates]
     return x, y
+
 
 
 def count_lit(input_data):
@@ -45,20 +44,22 @@ def count_lit(input_data):
             raise Exception
     return np.count_nonzero(grid)
 
+
 def count_brightness(input_data):
     grid = np.zeros((1000, 1000), dtype=int)
     for command in input_data.split('\n'):
         x, y = get_coordinates(command)
         if command.startswith('turn off'):
             grid[x[0]-1:x[1], y[0]-1:y[1]] -= 1
+            grid[grid < 0] = 0
         elif command.startswith('turn on'):
             grid[x[0]-1:x[1], y[0]-1:y[1]] += 1
         elif command.startswith('toggle'):
             grid[x[0]-1:x[1], y[0]-1:y[1]] += 2
         else:
             raise Exception
-        grid[grid < 0] = 0
     return sum(sum(grid))
 
 
+input_data = load_input()
 print_answer(count_lit(input_data), count_brightness(input_data))
