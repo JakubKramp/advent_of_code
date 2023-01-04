@@ -24,8 +24,10 @@ What is the distance of the shortest route?
 
 from utils import load_input, print_answer
 from collections import defaultdict
+import itertools
 
 distances = defaultdict(dict)
+travel_distances = []
 
 def set_distance(route: str) -> None:
     cities, distance = route.split('=')
@@ -33,10 +35,18 @@ def set_distance(route: str) -> None:
     city, city1 = cities.split('to')
     city = city.strip()
     city1 = city1.strip()
-    distances[city][city1] = distance
-    distances[city1][city] = distance
+    distances[city][city1] = int(distance)
+    distances[city1][city] = int(distance)
 
 
 for input in load_input().split('\n'):
     set_distance(input)
-print(distances.keys())
+permutations = (list(itertools.permutations(distances.keys())))
+
+def calculate_distance(order):
+    distance = 0
+    for current_city, destination in zip(order, order[1:]):
+        distance += distances[current_city][destination]
+    return distance
+
+print_answer(min(list(map(calculate_distance, permutations))), max(list(map(calculate_distance, permutations))))
