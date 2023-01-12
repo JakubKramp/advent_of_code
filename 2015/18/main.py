@@ -4,8 +4,8 @@
 
 from utils import load_input, print_answer
 
-dimensions = (6, 6)
-always_lit = ((0, 0), (0, 5), (5, 0), (5, 0))
+dimensions = (100, 100)
+always_lit = ((0, 0), (0, 99), (99, 0), (99, 99))
 
 def get_initial_lit(input_data):
     lit_pre = set()
@@ -15,9 +15,6 @@ def get_initial_lit(input_data):
                 lit_pre.add((i, j))
     lit_pre.update(always_lit)
     return lit_pre
-
-
-input_data = [list(line) for line in load_input().split('\n')]
 
 
 def get_neighbours(x, y):
@@ -33,8 +30,8 @@ def get_neighbours(x, y):
 
 def next_turn(lit_pre):
     lit_post = lit_pre.copy()
-    for i in range(100):
-        for j in range(100):
+    for i in range(dimensions[0]):
+        for j in range(dimensions[1]):
             if (i, j) in always_lit:
                 pass
             else:
@@ -47,7 +44,40 @@ def next_turn(lit_pre):
                     lit_post.discard((i, j))
     return lit_post
 
+
 input_data = [list(line) for line in load_input().split('\n')]
+
+
+currently_lit = get_initial_lit(input_data)
+
+for g in range(dimensions[0]):
+    currently_lit = next_turn(currently_lit)
+
+corners_lit = len(currently_lit)
+always_lit = ()
+currently_lit = get_initial_lit(input_data)
+
+for g in range(dimensions[0]):
+    currently_lit = next_turn(currently_lit)
+
+print_answer(len(currently_lit), corners_lit)
+
+
+# Helper functions for debugging
+def print_current(currently_lit):
+    current = []
+    for i in range(dimensions[0]):
+        l = list()
+        for j in range(dimensions[1]):
+            if (i,j) in currently_lit:
+                l.append('#')
+            else:
+                l.append('.')
+        current.append(l)
+    for c in current:
+        print(c)
+
+
 
 test_data = """##.#.#
 ...##.
@@ -55,10 +85,3 @@ test_data = """##.#.#
 ..#...
 #.#..#
 ####.#""".split('\n')
-
-currently_lit = get_initial_lit(test_data)
-print(len(currently_lit))
-for _ in range(5):
-    currently_lit = next_turn(currently_lit)
-
-print(len(currently_lit))
