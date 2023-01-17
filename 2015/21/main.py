@@ -36,9 +36,9 @@ class Creature:
     armor: int
 
     def __init__(self, hit_points, damage, armor):
-        self.hit_points = hit_points
-        self.damage = damage
-        self.armor = armor
+        self.hit_points = int(hit_points)
+        self.damage = int(damage)
+        self.armor = int(armor)
 
     def __str__(self):
         return f'HP:{self.hit_points}, A:{self.armor}, D:{self.damage}'
@@ -162,8 +162,13 @@ class Player:
     def would_win(self, enemy):
         while self.hit_points > 0 and enemy.hit_points > 0:
             enemy.hit_points -= (self.damage - enemy.armor)
+            print(f'Enemy HP {enemy.hit_points}')
+            if enemy.hit_points < 1:
+                return True
             self.hit_points -= (enemy.damage - self.armor)
-        return self.hit_points > 0
+            print(f'Your HP {self.hit_points}')
+            if self.hit_points < 1:
+                return False
 
 
 def sum_value(rings):
