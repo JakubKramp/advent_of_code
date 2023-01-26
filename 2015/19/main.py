@@ -44,23 +44,15 @@ def get_combinations(target_string):
     return combinations
 combinations = get_combinations(target_string)
 
-
-print_answer(len(combinations))
-
-values = get_values()
 def get_steps():
-    strings = ['e']
-    molecules = set()
-    for i in range(2):
-        for string in strings:
-            molecules = get_combinations(string)
-        strings = list(molecules)
-        if target_string in molecules:
-            return i + 1
-    print(strings)
-    return 'siema'
+    steps = 0
+    molecule = target_string
+    while len(molecule)>1:
+        for rule in rules:
+            for key, value in rule.items():
+                if count := molecule.count(value):
+                    molecule = molecule.replace(value, key)
+                    steps += count
+    return steps
 
-
-print(get_steps())
-
-
+print_answer(len(combinations), get_steps())
