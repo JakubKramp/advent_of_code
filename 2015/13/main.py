@@ -23,7 +23,7 @@ Then, if you seat Alice next to David, Alice would lose 2 happiness units (becau
 If you continue around the table, you could then seat Bob next to Alice (Bob gains 83, Alice gains 54). Finally, seat Carol, who sits next to Bob (Carol gains 60, Bob loses 7) and David (Carol gains 55, David gains 41). The arrangement looks like this:
 
      +41 +46
-+55   David    -2
++55   David    02
 Carol       Alice
 +60    Bob    +54
      -7  +83
