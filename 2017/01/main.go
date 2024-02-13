@@ -6,7 +6,7 @@ import (
     "strconv"
 )
 
-func load_input() string {
+func loadInput() string {
     content, err := ioutil.ReadFile("input.txt")
     if err != nil {
         fmt.Println("Error reading file:", err)
@@ -15,7 +15,7 @@ func load_input() string {
     return str
 }
 
-func part_one() int {
+func partOne() int {
     str := load_input()
     sum := 0
     for i := 0; i < len(str)-1; i++ {
@@ -37,7 +37,7 @@ func part_one() int {
     return sum
 }
 
-func part_two() int {
+func partTwo() int {
     str := load_input()
     sum := 0
     half := len(str)/2
