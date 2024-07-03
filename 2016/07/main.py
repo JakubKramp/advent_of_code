@@ -53,11 +53,11 @@ def support_ssl(ip_address: str) -> bool:
     :param ip_address: An address to be checked
     :return: Boolean indicating if the rule is fulfilled or not
     """
-    negative_regex = r'(\[\w*(\w)(?!\2)(\w)\2\w*\])(\]?\3\2\3\[?)'
-    positive_regex = r'(\]?\w*(\w)(?!\2)(\w)\2\w*\[?)(\[\w*\3\2\3\w*\])'
+    negative_regex = r'(\[\w*(\w)(?!\2)(\w)\2\w*\]).*(\]?\3\2\3\[?)'
+    positive_regex = r'(\]?\w*(\w)(?!\2)(\w)\2\w*\[?).*(\[\w*\3\2\3\w*\])'
 
     if re.findall(negative_regex, ip_address):
-        return False
+        return True
     elif re.findall(positive_regex, ip_address):
         return True
     return False
@@ -65,4 +65,5 @@ def support_ssl(ip_address: str) -> bool:
 
 ip_addresses = load_input().split('\n')
 part_one = [support_tls(ip_address) for ip_address in ip_addresses].count(True)
-print([support_tls(ip_address) for ip_address in ip_addresses].count(True))
+part_two = [support_ssl(ip_address) for ip_address in ip_addresses].count(True)
+print_answer(part_one, part_two)
