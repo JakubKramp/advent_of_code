@@ -56,9 +56,7 @@ def support_ssl(ip_address: str) -> bool:
     negative_regex = r'(\[\w*(\w)(?!\2)(\w)\2\w*\]).*(\]?\3\2\3\[?)'
     positive_regex = r'(\]?\w*(\w)(?!\2)(\w)\2\w*\[?).*(\[\w*\3\2\3\w*\])'
 
-    if re.findall(negative_regex, ip_address):
-        return True
-    elif re.findall(positive_regex, ip_address):
+    if re.findall(negative_regex, ip_address) or re.findall(positive_regex, ip_address):
         return True
     return False
 
